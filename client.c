@@ -12,12 +12,21 @@ int main() {
    struct sockaddr_in server_address;
    server_address.sin_family = AF_INET;
    server_address.sin_port = htons(8080);
-
    server_address.sin_addr.s_addr = inet_addr("127.0.0.1");
 
-   char *message = "Merhabaaa! Ben senin elle yazdığın ilk Client Bip Bop!";
+   char message[1024]; // Klavyeden girilecek mesaj için boş kutu
 
-   sendto(client_socket, message, strlen(message), 0, (struct sockaddr*)&server_address, sizeof(server_address));
+   printf("Chat basladi! (Cikmak icin Ctrl+C)\n");
+
+   while(1) { // Sürekli klavyeyi dinle
+
+      printf("Sen: ");
+
+      // fgets: klavyeden (stdin) en fazla 1024 karakter oku ve message dizisine yaz
+      fgets(message, sizeof(message), stdin);
+
+      sendto(client_socket, message, strlen(message), 0, (struct sockaddr*)&server_address, sizeof(server_address));
+   }
 
    printf("Mesaj basariyla sunucuya ateslendii!\n");
 
