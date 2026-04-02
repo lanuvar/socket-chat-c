@@ -26,6 +26,17 @@ int main() {
       fgets(message, sizeof(message), stdin);
 
       sendto(client_socket, message, strlen(message), 0, (struct sockaddr*)&server_address, sizeof(server_address));
+      char server_response[1024];
+      struct sockaddr_in from_server;
+      socklen_t addr_len = sizeof(from_server);
+
+      int resp_bytes = recvfrom(client_socket, server_response, sizeof(server_response), 0, (struct sockaddr*)&from_server, &addr_len);
+
+      if (resp_bytes > 0){
+         server_response[resp_bytes] = '\0';
+         printf("Sunucudan cevap: %s\n", server_response );
+      }
+
    }
 
    printf("Mesaj basariyla sunucuya ateslendii!\n");

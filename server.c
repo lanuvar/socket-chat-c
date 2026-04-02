@@ -30,7 +30,9 @@ int main(){
          buffer[received_bytes] = '\0';
          printf("Gelen mesaj: %s\n ", buffer);
 
-         printf("Gönderen IP: %s\n", inet_ntoa(client_address.sin_addr));
+         // Cevap gönderme kısmı
+         char *response = "Mesajını aldim, kule temiz!";
+         sendto(server_socket, response, strlen(response), 0, (struct sockaddr*)&client_address, client_addr_len);
       }
    }
 
